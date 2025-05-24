@@ -36,12 +36,22 @@ Dalam industri asuransi, penetapan premi yang tepat adalah seni sekaligus sains.
 ```
 
 ## Cara Memulai
-1. Clone repository ini
-2. Install dependensi:
-   ```bash
-   pip install -r requirements.txt
+1. Clone repository ini dengan perintah berikut:
    ```
-3. Buka `tes.ipynb` dan ikuti pipeline analisis
+   git clone https://github.
+   com/arknsa/
+   Premium-Optimization.git
+   ```
+2. Masuk ke folder project:
+   ```
+   cd Premium-Optimization
+   ```
+3. Install dependensi:
+   ```
+   pip install -r 
+   requirements.txt
+   ```
+4. Buka tes.ipynb dan ikuti pipeline analisis
 
 ## Insight Utama
 - **Customer tenure dan riwayat klaim** adalah prediktor kuat risiko dan kecocokan premi
