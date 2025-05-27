@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import locale
+
+locale.setlocale(locale.LC_ALL, 'id_ID')
 
 # Define dropdown options with brief descriptions
 education_levels = ['High School', 'PhD', 'Bachelor', 'Master']
@@ -62,20 +65,22 @@ selected_pref_key = customer_preference.split(" (")[0]
 insurance_map = {"Health": 0, "Auto": 1, "Multiple": 2, "Life": 3, "Home": 4, "Travel": 5}
 
 if st.button("Predict Premium"):
-    X_new = pd.DataFrame([[
-        edu_map[education],
-        interaction_map[selected_interaction_key],
-        insurance_map[insurance_products_owned],
-        deductible,
-        cust_pref_map[selected_pref_key]
-    ]], columns=[
-        "Education Level",
-        "Interactions with Customer Service",
-        "Insurance Products Owned",
-        "Deductible",
-        "Customer Preferences"
+    X_new = pd.DataFrame([[ 
+        edu_map[education], 
+        interaction_map[selected_interaction_key], 
+        insurance_map[insurance_products_owned], 
+        deductible, 
+        cust_pref_map[selected_pref_key] 
+    ]], columns=[ 
+        "Education Level", 
+        "Interactions with Customer Service", 
+        "Insurance Products Owned", 
+        "Deductible", 
+        "Customer Preferences" 
     ])
     
     model = load_model()
     pred = model.predict(X_new)[0]
-    st.success(f"💰 **Predicted Premium Amount:** `{pred:,.2f}`")
+    # Format the predicted amount using locale settings
+    formatted_pred = locale.format_string('%.2f', pred, grouping=True)
+    st.success(f"💰 **Predicted Premium Amount:** `{formatted_pred}`")
