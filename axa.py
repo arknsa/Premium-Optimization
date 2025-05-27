@@ -18,6 +18,15 @@ customer_preferences = [
     "No Preference (No specific preference)"
 ]
 
+insurance_products_owned_options = [
+    "Health",
+    "Auto",
+    "Multiple",
+    "Life",
+    "Home",
+    "Travel"
+]
+
 @st.cache_resource
 def load_model():
     return joblib.load('ridge_model.pkl')
@@ -27,7 +36,7 @@ st.write("Fill in the data below to predict the **Premium Amount**.")
 
 education = st.selectbox("Education Level", education_levels)
 interaction = st.selectbox("Interactions with Customer Service", interaction_levels)
-insurance_products_owned = st.number_input("Insurance Products Owned (number of products)", min_value=0, step=1, value=0)
+insurance_products_owned = st.selectbox("Insurance Products Owned", insurance_products_owned_options)
 deductible = st.number_input("Deductible", min_value=0.0, step=1.0, value=0.0)
 customer_preference = st.selectbox("Customer Preferences", customer_preferences)
 
@@ -49,11 +58,14 @@ cust_pref_map_keys = [
 cust_pref_map = {v: i for i, v in enumerate(cust_pref_map_keys)}
 selected_pref_key = customer_preference.split(" (")[0]
 
+# Mapping insurance products owned
+insurance_map = {"Health": 0, "Auto": 1, "Multiple": 2, "Life": 3, "Home": 4, "Travel": 5}
+
 if st.button("Predict Premium"):
     X_new = pd.DataFrame([[
         edu_map[education],
         interaction_map[selected_interaction_key],
-        insurance_products_owned,
+        insurance_map[insurance_products_owned],
         deductible,
         cust_pref_map[selected_pref_key]
     ]], columns=[
