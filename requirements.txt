@@ -7,4 +7,3 @@ fastexcel
 joblib
 streamlit
 scikit-learn
-locale
